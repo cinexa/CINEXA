@@ -23,6 +23,14 @@
 
 	<!-- Local styles for top logo + tagline (logo smaller, left-aligned) -->
 	<style>
+		/* 썸네일 이미지 스타일 */
+		.thumb a.video img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			aspect-ratio: 16/9;
+		}
+
 		/* header as a horizontal row, left-aligned */
 		#header {
 			display: flex;
@@ -242,12 +250,12 @@
 				</p>
 			</article>
 			<article class="thumb">
-				<a href="images/fulls/02.png" class="image"><img src="images/thumbs/02.png" alt="" /></a>
+				<a href="images/fulls/02.mp4" class="video"><img src="images/thumbs/02.png" alt="" /></a>
 				<h2>Copper Drift</h2>
 				<p>Flowing metallic textures glowing like molten gold.</p>
 			</article>
 			<article class="thumb">
-				<a href="images/fulls/03.png" class="image"><img src="images/thumbs/03.png" alt="" /></a>
+				<a href="images/fulls/03.mp4" class="video"><img src="images/thumbs/03.png" alt="" /></a>
 				<h2>Neon Couture</h2>
 				<p>Futuristic fashion with bold patterns and faux-fur details.</p>
 			</article>
@@ -365,6 +373,83 @@
 	<script src="assets/js/main.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 	<script type="text/javascript">
+		// 페이지 로드 완료 후 실행
+		$(document).ready(function () {
+			// 비디오 링크 클릭 이벤트 처리
+			$('.thumb > a.video').on('click', function (e) {
+				e.preventDefault();
+				var videoUrl = $(this).attr('href');
+
+				// 제목과 설명 가져오기
+				var title = $(this).closest('article').find('h2').text();
+				var description = $(this).closest('article').find('p').text();
+
+				// 팝업 컨테이너 생성
+				var $popup = $('<div class="video-popup">' +
+					'<div class="video-popup-overlay"></div>' +
+					'<div class="video-popup-content">' +
+					'<div class="video-popup-close">×</div>' +
+					'<div class="video-container">' +
+					'<video controls autoplay loop muted playsinline>' +
+					'<source src="' + videoUrl + '" type="video/mp4">' +
+					'Your browser does not support the video tag.' +
+					'</video>' +
+					'</div>' +
+					'<div class="video-popup-caption">' +
+					'<h2>' + title + '</h2>' +
+					'<p>' + description + '</p>' +
+					'</div>' +
+					'</div>' +
+					'</div>');
+
+				// 스타일 추가
+				$('<style>' +
+					'.video-popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; display: none; }' +
+					'.video-popup-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(31, 35, 40, 0.85); }' +
+					'.video-popup-content { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 75vw; background: #000; border-radius: 4px; overflow: hidden; }' +
+					'.video-container { width: 100%; height: 0; padding-bottom: 56.25%; position: relative; }' +
+					'.video-container video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000; }' +
+					'.video-popup-caption { padding: 20px; color: white; background: rgba(0, 0, 0, 0.8); }' +
+					'.video-popup-caption h2 { margin: 0 0 10px 0; font-size: 1.5em; }' +
+					'.video-popup-caption p { margin: 0; opacity: 0.8; }' +
+					'.video-popup-close { position: absolute; top: 10px; right: 15px; color: white; font-size: 30px; cursor: pointer; z-index: 1; }' +
+					'</style>').appendTo('head');
+
+				// 팝업 표시
+				$popup.appendTo('body').fadeIn(300);
+
+				// 닫기 버튼 및 오버레이 클릭 이벤트
+				$popup.find('.video-popup-close, .video-popup-overlay').on('click', function () {
+					$popup.fadeOut(300, function () {
+						$(this).remove();
+					});
+				});
+
+				// ESC 키 처리
+				$(document).on('keyup.video-popup', function (e) {
+					if (e.key === 'Escape') {
+						$popup.fadeOut(300, function () {
+							$(this).remove();
+						});
+					}
+				});
+			});
+
+			// 이미지는 기존 Poptrox 사용
+			$('#main').poptrox({
+				selector: '.thumb > a.image',
+				baseZIndex: 10001,
+				usePopupDefaultStyling: false,
+				usePopupCaption: true,
+				usePopupCloser: true,
+				overlayColor: '#1f2328',
+				overlayOpacity: 0.85,
+				popupCloserText: '',
+				popupLoaderText: '',
+				usePopupEasyClose: true
+			});
+		});
+
 		(function () {
 			// TODO: replace with your EmailJS public key
 			const EMAILJS_PUBLIC_KEY = "6KoOToOnhXudVJ_J1"; // replace this with your actual public key
