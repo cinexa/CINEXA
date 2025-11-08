@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Start</title>
+  <style>
+    /* Reset-ish */
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; }
+
+    /* Container fills the viewport */
+    .hero {
+      position: relative;
+      height: 100vh;
+      width: 100%;
+      overflow: hidden;
+      background: #000; /* in case video fails */
+    }
+
+    /* Background video covers fully */
+    #bg-video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      filter: saturate(1.05);
+    }
+
+    /* Dark overlay for contrast */
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,.35);
+      pointer-events: none;
+    }
+
+    /* Center content */
+    .center {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 24px;
+      color: #f8fafc;
+      text-shadow: 0 1px 2px rgba(0,0,0,.5);
+    }
+
+    h1 { 
+      font-size: clamp(28px, 5vw, 56px);
+      margin: 0 0 20px;
+      font-weight: 700;
+      letter-spacing: .02em;
+    }
+
+    p.lead {
+      font-size: clamp(14px, 2.4vw, 18px);
+      opacity: .9;
+      margin: 0 0 32px;
+    }
+
+    .btn-start {
+      appearance: none;
+      border: 0;
+      background: #ffffff;
+      color: #0f172a;
+      font-weight: 700;
+      padding: 14px 28px;
+      border-radius: 9999px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease, opacity .2s ease;
+      box-shadow: 0 10px 20px rgba(0,0,0,.25);
+    }
+    .btn-start:hover { transform: translateY(-1px); box-shadow: 0 14px 24px rgba(0,0,0,.28); }
+    .btn-start:active { transform: translateY(0); box-shadow: 0 8px 16px rgba(0,0,0,.22); }
+    .btn-start:focus { outline: 3px solid rgba(255,255,255,.6); outline-offset: 2px; }
+
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      #bg-video { animation: none; }
+    }
+
+    /* Fade out on enter */
+    .fade-out {
+      opacity: 0;
+      transition: opacity .5s ease;
+    }
+
+    /* Top centered site header (logo + short intro) */
+    .site-header {
+      position: absolute;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 4; /* above center */
+      padding: 6px 12px;
+      color: #fff;
+      text-align: left;
+      pointer-events: auto;
+      backdrop-filter: blur(6px);
+    }
+
+    .site-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+    .site-logo { height: clamp(32px, 4.2vw, 56px); width: auto; display: block; }
+    .site-name { font-weight: 700; font-size: 15px; line-height: 1; }
+    .site-desc { font-size: 12px; opacity: .92; margin-top: 2px; }
+
+    /* Small screens: reduce spacing */
+    @media (max-width: 420px) {
+      .site-header { top: 10px; gap: 8px; padding: 4px 8px; }
+      .site-name { font-size: 13px; }
+      .site-desc { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <section class="hero" aria-label="Intro video background section">
+    <!-- Poster shows quickly while video buffers; update path to a lightweight PNG -->
+    <video id="bg-video" autoplay muted playsinline loop poster="assets/poster.png">
+      <!-- Provide at least MP4 (H.264). Optionally WebM/OGG for wider support -->
+      <source src="assets/landing.mp4" type="video/mp4" />
+      <!-- <source src="assets/landing.webm" type="video/webm" /> -->
+      브라우저가 비디오 태그를 지원하지 않습니다.
+    </video>
+
+    <div class="overlay" aria-hidden="true"></div>
+
+    <header class="site-header" role="banner" aria-label="회사 소개">
+      <a href="main.html" class="site-brand" aria-label="홈으로 이동">
+        <img src="assets/images/logo.svg" alt="회사 로고" class="site-logo" />
+        <div>
+          <div class="site-name">회사명</div>
+          <div class="site-desc">짧은 소개 문구 — 여기에 회사 한줄 소개를 입력하세요.</div>
+        </div>
+      </a>
+    </header>
+
+    <div class="center">
+      <div>
+        <h1>Welcome</h1>
+        <p class="lead">영상은 조용히 반복 중. 버튼을 누르면 메인으로 이동합니다.</p>
+        <button class="btn-start" id="startBtn" aria-label="메인으로 이동">Start</button>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Autoplay fallback: mobile browsers sometimes block until gesture.
+    (function ensureVideoPlays() {
+      const v = document.getElementById('bg-video');
+      const tryPlay = () => v.play().catch(() => {/* ignored */});
+      if (v) {
+        if (v.paused) tryPlay();
+        ['touchstart','pointerdown','click'].forEach(evt => document.addEventListener(evt, tryPlay, { once: true, passive: true }));
+      }
+    })();
+
+    // Start button behavior: fade then navigate
+    (function setupStart() {
+      const btn = document.getElementById('startBtn');
+      const target = 'main.html'; // <- change to your homepage route/file
+      btn.addEventListener('click', () => {
+        const hero = document.querySelector('.hero');
+        hero.classList.add('fade-out');
+        setTimeout(() => { window.location.href = target; }, 200);
+      });
+
+      // Keyboard accessibility: Enter/Space triggers
+      btn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          btn.click();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
