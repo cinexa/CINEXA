@@ -180,25 +180,37 @@
 
 		@media (max-width: 420px) {
 
-			/* stack on very small screens to avoid squeezing */
+			/* keep header items on a single row on very small screens so nav doesn't drop below */
 			#header {
-				flex-direction: column;
-				align-items: flex-start;
+				flex-direction: row !important;
+				align-items: center;
+				justify-content: space-between;
 				gap: 8px;
-				text-align: left;
+				padding: 4px 10px !important;
 			}
 
 			.company-top {
 				flex-direction: row;
+				align-items: center;
+				gap: 8px;
 			}
 
 			.company-logo {
-				max-width: 100px;
-				max-height: 36px;
+				max-width: 90px;
+				max-height: 32px;
 			}
 
-			.company-tagline {
-				font-size: 12px;
+			/* ensure nav stays aligned to the right */
+			#header nav {
+				margin-left: auto;
+				display: flex;
+				align-items: center;
+			}
+
+			/* make About text slightly smaller */
+			#header nav a {
+				font-size: 0.9em;
+				padding: 0 0.5em;
 			}
 		}
 	</style>
@@ -287,7 +299,7 @@
 		</div>
 
 		<!-- Footer -->
-		<footer id="footer" class="panel">
+		<footer id="footer" class="panel" style="background: #0b0b0b !important;">
 			<div class="inner split">
 				<div>
 					<section>
