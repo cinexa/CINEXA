@@ -114,6 +114,27 @@
 			/* increased gap between logo and paragraph */
 		}
 
+		/* When the footer is targeted (e.g. clicking About -> #footer),
+		   increase spacing between the footer logo and the description */
+		#footer:target .footer-logo {
+			margin-bottom: 1.8em !important;
+		}
+
+		/* Ensure the About button becomes black when clicked/active/focused */
+		#header nav a.icon.solid,
+		#header nav a.icon.solid:visited {
+			color: #000 !important;
+			background: transparent !important;
+		}
+
+		#header nav a.icon.solid:active,
+		#header nav a.icon.solid:focus,
+		#header nav a.icon.solid.active {
+			/* set background to black and text to white when active/focused */
+			background-color: #000 !important;
+			color: #fff !important;
+		}
+
 		@media (max-width: 420px) {
 			.footer-logo {
 				max-height: 32px;
