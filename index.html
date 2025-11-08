@@ -313,11 +313,7 @@
 				<div>
 					<section>
 						<h2>Get in touch</h2>
-						<form id="contactForm" action="https://formsubmit.co/cinexa.ai@gmail.com" method="POST">
-							<input type="hidden" name="_subject" value="New contact from CINEXA website">
-							<input type="hidden" name="_template" value="table">
-							<input type="hidden" name="_captcha" value="false">
-							<input type="hidden" name="_next" value="https://cinexa.ai">
+						<form id="contactForm">
 							<div class="fields">
 								<div class="field half">
 									<input type="text" name="name" id="name" placeholder="Name" required />
@@ -355,6 +351,59 @@
 	<script src="assets/js/breakpoints.min.js"></script>
 	<script src="assets/js/util.js"></script>
 	<script src="assets/js/main.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+	<script type="text/javascript">
+		(function () {
+			// TODO: replace with your EmailJS public key
+			const EMAILJS_PUBLIC_KEY = "6KoOToOnhXudVJ_J1"; // replace this with your actual public key
+			if (!EMAILJS_PUBLIC_KEY || EMAILJS_PUBLIC_KEY === "YOUR_PUBLIC_KEY") {
+				console.warn('EmailJS public key not set. Replace YOUR_PUBLIC_KEY with your EmailJS public key in index.html');
+			}
+			emailjs.init(EMAILJS_PUBLIC_KEY);
+		})();
+
+		window.onload = function () {
+			document.getElementById('contactForm').addEventListener('submit', function (event) {
+				event.preventDefault();
+
+				const btn = document.querySelector('input[type="submit"]');
+				btn.value = 'Sending...';
+				btn.disabled = true;
+
+				const templateParams = {
+					from_name: document.getElementById('name').value,
+					from_email: document.getElementById('email').value,
+					mobile: document.getElementById('mobile').value,
+					message: document.getElementById('message').value,
+					// Also include raw keys the EmailJS template might expect
+					name: document.getElementById('name').value,
+					email: document.getElementById('email').value,
+					// Provide recipient address in case the template uses a dynamic recipient field
+					to_email: 'cinexa.ai@gmail.com',
+					to_name: 'CINEXA'
+				};
+
+				emailjs.send('service_vamgq3e', 'template_oce4pjv', templateParams)
+					.then(function (response) {
+						console.log('EmailJS success', response);
+						alert('Message sent successfully!');
+						document.getElementById('contactForm').reset();
+						btn.value = 'Send';
+						btn.disabled = false;
+					})
+					.catch(function (error) {
+						console.error('EmailJS error:', error);
+						// Show useful error details to the user for debugging
+						let msg = 'Failed to send message.';
+						if (error && error.text) msg += ' ' + error.text;
+						if (error && error.status) msg += ` (status: ${error.status})`;
+						alert(msg + '\nCheck the browser console for details.');
+						btn.value = 'Send';
+						btn.disabled = false;
+					});
+			});
+		}
+	</script>
 
 </body>
 
