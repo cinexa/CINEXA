@@ -1,190 +1,328 @@
-<!DOCTYPE html>
-<html lang="ko">
+<!DOCTYPE HTML>
+<!--
+	Multiverse by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Start</title>
-  <style>
-    /* Reset-ish */
-    * { box-sizing: border-box; }
-    html, body { height: 100%; margin: 0; }
-    body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; }
+	<title>CINEXA</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+	<noscript>
+		<link rel="stylesheet" href="assets/css/noscript.css" />
+	</noscript>
 
-    /* Container fills the viewport */
-    .hero {
-      position: relative;
-      height: 100vh;
-      width: 100%;
-      overflow: hidden;
-      background: #000; /* in case video fails */
-    }
+	<!-- Local styles for top logo + tagline (logo smaller, left-aligned) -->
+	<style>
+		/* header as a horizontal row, left-aligned */
+		#header {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: flex-start;
+			gap: 18px;
+			text-align: left;
+			padding: 6px 14px;
+		}
 
-    /* Background video covers fully */
-    #bg-video {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      min-width: 100%;
-      min-height: 100%;
-      width: auto;
-      height: auto;
-      transform: translate(-50%, -50%);
-      object-fit: cover;
-      filter: saturate(1.05);
-    }
+		/* make the top bar thinner */
+		#header {
+			height: 3.2em !important;
+			line-height: 1.8em !important;
+		}
 
-    /* Dark overlay for contrast */
-    .overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,.35);
-      pointer-events: none;
-    }
+		/* ensure page content isn't hidden under the fixed header (adjust to new header height) */
+		/* match body padding-top to header height to eliminate extra gap */
+		body {
+			padding: 3.2em 0 4em 0 !important;
+		}
 
-    /* Center content */
-    .center {
-      position: relative;
-      z-index: 2;
-      height: 100%;
-      display: grid;
-      place-items: center;
-      text-align: center;
-      padding: 24px;
-      color: #f8fafc;
-      text-shadow: 0 1px 2px rgba(0,0,0,.5);
-    }
+		/* force header to top on all viewports (theme positions it at bottom on wide screens) */
+		#header {
+			top: 0 !important;
+			bottom: auto !important;
+			/* chrome-black header background override */
+			background: #0b0b0b !important;
+		}
 
-    h1 { 
-      font-size: clamp(28px, 5vw, 56px);
-      margin: 0 0 20px;
-      font-weight: 700;
-      letter-spacing: .02em;
-    }
+		/* ensure nav participates in flex layout so items can be vertically centered */
+		#header nav {
+			position: static !important;
+			margin-left: auto;
+			display: flex;
+			align-items: center;
+			height: 100%;
+		}
 
-    p.lead {
-      font-size: clamp(14px, 2.4vw, 18px);
-      opacity: .9;
-      margin: 0 0 32px;
-    }
+		#header nav>ul {
+			display: flex;
+			align-items: center;
+			gap: 0;
+		}
 
-    .btn-start {
-      appearance: none;
-      border: 0;
-      background: #ffffff;
-      color: #0f172a;
-      font-weight: 700;
-      padding: 14px 28px;
-      border-radius: 9999px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: transform .18s ease, box-shadow .18s ease, opacity .2s ease;
-      box-shadow: 0 10px 20px rgba(0,0,0,.25);
-    }
-    .btn-start:hover { transform: translateY(-1px); box-shadow: 0 14px 24px rgba(0,0,0,.28); }
-    .btn-start:active { transform: translateY(0); box-shadow: 0 8px 16px rgba(0,0,0,.22); }
-    .btn-start:focus { outline: 3px solid rgba(255,255,255,.6); outline-offset: 2px; }
+		#header nav>ul>li {
+			display: inline-flex;
+			align-items: center;
+		}
 
-    /* Respect reduced motion */
-    @media (prefers-reduced-motion: reduce) {
-      #bg-video { animation: none; }
-    }
+		/* company-top groups logo + small tagline horizontally */
+		.company-top {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			gap: 10px;
+		}
 
-    /* Fade out on enter */
-    .fade-out {
-      opacity: 0;
-      transition: opacity .5s ease;
-    }
+		/* remove default dotted underline on anchors inside the header (global theme adds a dotted border-bottom) */
+		#header a {
+			border-bottom: 0 !important;
+			text-decoration: none !important;
+		}
 
-    /* Top centered site header (logo + short intro) */
-    .site-header {
-      position: absolute;
-      top: 18px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      z-index: 4; /* above center */
-      padding: 6px 12px;
-      color: #fff;
-      text-align: left;
-      pointer-events: auto;
-      backdrop-filter: blur(6px);
-    }
+		/* reduce default logo size so large images scale down */
+		.company-logo {
+			max-width: 160px;
+			max-height: 48px;
+			width: auto;
+			height: auto;
+			display: block;
+		}
 
-    .site-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
-    .site-logo { height: clamp(32px, 4.2vw, 56px); width: auto; display: block; }
-    .site-name { font-weight: 700; font-size: 15px; line-height: 1; }
-    .site-desc { font-size: 12px; opacity: .92; margin-top: 2px; }
+		.company-tagline {
+			margin: 0;
+			font-size: 14px;
+			color: #222;
+		}
 
-    /* Small screens: reduce spacing */
-    @media (max-width: 420px) {
-      .site-header { top: 10px; gap: 8px; padding: 4px 8px; }
-      .site-name { font-size: 13px; }
-      .site-desc { display: none; }
-    }
-  </style>
+		/* compact footer paragraph (tighter lines when using <br>) */
+		.footer-compact {
+			margin: 0 0 1.2em 0;
+			/* increased gap between the paragraph and the next section */
+			line-height: 1.18;
+		}
+
+		/* small footer logo */
+		.footer-logo {
+			display: block;
+			max-height: 42px;
+			/* slightly larger */
+			width: auto;
+			margin-bottom: 0.6em;
+			/* increased gap between logo and paragraph */
+		}
+
+		@media (max-width: 420px) {
+			.footer-logo {
+				max-height: 32px;
+			}
+		}
+
+		/* keep some spacing between the company block and the site title */
+		#header h1 {
+			margin: 0;
+			font-size: 1.1rem;
+		}
+
+		@media (max-width: 768px) {
+			.company-logo {
+				max-width: 120px;
+				max-height: 40px;
+			}
+
+			.company-tagline {
+				font-size: 13px;
+			}
+
+			#header {
+				padding: 10px 14px;
+				gap: 12px;
+			}
+		}
+
+		@media (max-width: 736px) {
+
+			/* match theme's small-screen spacing so header doesn't overlap content */
+			body {
+				padding: 3.2em 0 0 0 !important;
+			}
+		}
+
+		@media (max-width: 420px) {
+
+			/* stack on very small screens to avoid squeezing */
+			#header {
+				flex-direction: column;
+				align-items: flex-start;
+				gap: 8px;
+				text-align: left;
+			}
+
+			.company-top {
+				flex-direction: row;
+			}
+
+			.company-logo {
+				max-width: 100px;
+				max-height: 36px;
+			}
+
+			.company-tagline {
+				font-size: 12px;
+			}
+		}
+	</style>
 </head>
-<body>
-  <section class="hero" aria-label="Intro video background section">
-    <!-- Poster shows quickly while video buffers; update path to a lightweight PNG -->
-    <video id="bg-video" autoplay muted playsinline loop poster="assets/poster.png">
-      <!-- Provide at least MP4 (H.264). Optionally WebM/OGG for wider support -->
-      <source src="assets/landing.mp4" type="video/mp4" />
-      <!-- <source src="assets/landing.webm" type="video/webm" /> -->
-      브라우저가 비디오 태그를 지원하지 않습니다.
-    </video>
 
-    <div class="overlay" aria-hidden="true"></div>
+<body class="is-preload">
 
-    <header class="site-header" role="banner" aria-label="회사 소개">
-      <a href="main.html" class="site-brand" aria-label="홈으로 이동">
-        <img src="assets/images/logo.svg" alt="회사 로고" class="site-logo" />
-        <div>
-          <div class="site-name">회사명</div>
-          <div class="site-desc">짧은 소개 문구 — 여기에 회사 한줄 소개를 입력하세요.</div>
-        </div>
-      </a>
-    </header>
+	<!-- Wrapper -->
+	<div id="wrapper">
 
-    <div class="center">
-      <div>
-        <h1>Welcome</h1>
-        <p class="lead">영상은 조용히 반복 중. 버튼을 누르면 메인으로 이동합니다.</p>
-        <button class="btn-start" id="startBtn" aria-label="메인으로 이동">Start</button>
-      </div>
-    </div>
-  </section>
+		<!-- Header -->
+		<header id="header">
+			<a href="index.html" class="company-top" aria-label="홈으로 이동">
+				<img src="images/company-logo.png" alt="회사 로고" class="company-logo" />
+			</a>
+			<nav>
+				<ul>
+					<li><a href="#footer" class="icon solid fa-info-circle">About</a></li>
+				</ul>
+			</nav>
+		</header>
 
-  <script>
-    // Autoplay fallback: mobile browsers sometimes block until gesture.
-    (function ensureVideoPlays() {
-      const v = document.getElementById('bg-video');
-      const tryPlay = () => v.play().catch(() => {/* ignored */});
-      if (v) {
-        if (v.paused) tryPlay();
-        ['touchstart','pointerdown','click'].forEach(evt => document.addEventListener(evt, tryPlay, { once: true, passive: true }));
-      }
-    })();
+		<!-- Main -->
+		<div id="main">
+			<article class="thumb">
+				<a href="images/fulls/01.png" class="image"><img src="images/thumbs/01.png" alt="" /></a>
+				<h2>Sweet Geometry</h2>
+				<p>A pastel donut shop wrapped in dreamy, candy-colored design.
+				</p>
+			</article>
+			<article class="thumb">
+				<a href="images/fulls/02.png" class="image"><img src="images/thumbs/02.png" alt="" /></a>
+				<h2>Copper Drift</h2>
+				<p>Flowing metallic textures glowing like molten gold.</p>
+			</article>
+			<article class="thumb">
+				<a href="images/fulls/03.png" class="image"><img src="images/thumbs/03.png" alt="" /></a>
+				<h2>Neon Couture</h2>
+				<p>Futuristic fashion with bold patterns and faux-fur details.</p>
+			</article>
+			<article class="thumb">
+				<a href="images/fulls/04.png" class="image"><img src="images/thumbs/04.png" alt="" /></a>
+				<h2>Solar Script</h2>
+				<p>Korean visual typography ignited by solar explosion energy.</p>
+			</article>
+			<article class="thumb">
+				<a href="images/fulls/05.png" class="image"><img src="images/thumbs/05.png" alt="" /></a>
+				<h2>Chrome Flow</h2>
+				<p>Sleek metal curves embodying speed and precision.</p>
+			</article>
+			<article class="thumb">
+				<a href="images/fulls/06.png" class="image"><img src="images/thumbs/06.png" alt="" /></a>
+				<h2>Midnight Apex</h2>
+				<p>A racing car slicing through neon-lit rain at night.</p>
+			</article>
+			<article class="thumb">
+				<a href="images/fulls/07.png" class="image"><img src="images/thumbs/07.png" alt="" /></a>
+				<h2>Code Garden</h2>
+				<p>An office where technology and nature quietly coexist.</p>
+			</article>
+			<article class="thumb">
+				<a href="images/fulls/08.png" class="image"><img src="images/thumbs/08.png" alt="" /></a>
+				<h2>Racer</h2>
+				<p>The fierce, focused eyes of a man built for speed.</p>
+			</article>
+			<article class="thumb">
+				<a href="images/fulls/09.png" class="image"><img src="images/thumbs/09.png" alt="" /></a>
+				<h2>Blue Ember</h2>
+				<p>A cool-toned firefighter character concept in motion.</p>
+			</article>
+			<article class="thumb">
+				<a href="images/fulls/10.png" class="image"><img src="images/thumbs/10.png" alt="" /></a>
+				<h2>Echo Stage</h2>
+				<p>A monochrome portrait of raw emotion in performance.</p>
+			</article>
+			<article class="thumb">
+				<a href="images/fulls/11.png" class="image"><img src="images/thumbs/11.png" alt="" /></a>
+				<h2>Bare Light</h2>
+				<p>Unfiltered skin and gaze — beauty in natural realism.</p>
+			</article>
+			<article class="thumb">
+				<a href="images/fulls/12.png" class="image"><img src="images/thumbs/12.png" alt="" /></a>
+				<h2>Crystal Mind</h2>
+				<p>A surreal figure crowned with shimmering crystal forms.</p>
+			</article>
+		</div>
 
-    // Start button behavior: fade then navigate
-    (function setupStart() {
-      const btn = document.getElementById('startBtn');
-      const target = 'main.html'; // <- change to your homepage route/file
-      btn.addEventListener('click', () => {
-        const hero = document.querySelector('.hero');
-        hero.classList.add('fade-out');
-        setTimeout(() => { window.location.href = target; }, 200);
-      });
+		<!-- Footer -->
+		<footer id="footer" class="panel">
+			<div class="inner split">
+				<div>
+					<section>
+						<!-- footer header replaced by compact logo -->
+						<img src="images/company-logo.png" alt="회사 로고" class="footer-logo" />
+						<p class="footer-compact">Designed by AI, defined by vision.<br>
+							We craft motion between frames and imagination.<br>
+							Creating the future of automated creativity.</p>
+					</section>
+					<br>
+					<section>
+						<h2>Follow me on ...</h2>
+						<ul class="icons">
+							<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+							<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a>
+							</li>
+							<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a>
+							</li>
+							<li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+							<li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+							<li><a href="#" class="icon brands fa-linkedin-in"><span class="label">LinkedIn</span></a>
+							</li>
+						</ul>
+					</section>
+					<p class="copyright">
+						&copy; Unttled. Design: <a href="http://html5up.net">HTML5 UP</a>.
+					</p>
+				</div>
+				<div>
+					<section>
+						<h2>Get in touch</h2>
+						<form method="post" action="#">
+							<div class="fields">
+								<div class="field half">
+									<input type="text" name="name" id="name" placeholder="Name" />
+								</div>
+								<div class="field half">
+									<input type="text" name="email" id="email" placeholder="Email" />
+								</div>
+								<div class="field">
+									<textarea name="message" id="message" rows="4" placeholder="Message"></textarea>
+								</div>
+							</div>
+							<ul class="actions">
+								<li><input type="submit" value="Send" class="primary" /></li>
+								<li><input type="reset" value="Reset" /></li>
+							</ul>
+						</form>
+					</section>
+				</div>
+			</div>
+		</footer>
 
-      // Keyboard accessibility: Enter/Space triggers
-      btn.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          btn.click();
-        }
-      });
-    })();
-  </script>
+	</div>
+
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.poptrox.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+
 </body>
+
 </html>
