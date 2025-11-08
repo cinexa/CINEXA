@@ -10,6 +10,12 @@
 	<title>CINEXA</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<!-- Favicons -->
+	<link rel="icon" type="image/png" sizes="32x32" href="images/company-logo_1x1.png" />
+	<link rel="icon" type="image/png" sizes="16x16" href="images/company-logo_1x1.png" />
+	<link rel="apple-touch-icon" sizes="180x180" href="images/company-logo_1x1.png" />
+	<meta name="msapplication-TileImage" content="images/company-logo_1x1.png" />
+	<meta name="msapplication-TileColor" content="#000000" />
 	<link rel="stylesheet" href="assets/css/main.css" />
 	<noscript>
 		<link rel="stylesheet" href="assets/css/noscript.css" />
@@ -94,14 +100,15 @@
 		.company-tagline {
 			margin: 0;
 			font-size: 14px;
-			color: #222;
+			color: #0b0b0b;
 		}
 
 		/* compact footer paragraph (tighter lines when using <br>) */
 		.footer-compact {
 			margin: 0 0 1.2em 0;
 			/* increased gap between the paragraph and the next section */
-			line-height: 1.18;
+			line-height: 1.6;
+			/* increased for better readability */
 		}
 
 		/* small footer logo */
@@ -110,7 +117,7 @@
 			max-height: 42px;
 			/* slightly larger */
 			width: auto;
-			margin-bottom: 0.6em;
+			margin-bottom: 1.5em;
 			/* increased gap between logo and paragraph */
 		}
 
@@ -123,7 +130,7 @@
 		/* Ensure the About button becomes black when clicked/active/focused */
 		#header nav a.icon.solid,
 		#header nav a.icon.solid:visited {
-			color: #000 !important;
+			color: #fff !important;
 			background: transparent !important;
 		}
 
@@ -131,7 +138,7 @@
 		#header nav a.icon.solid:focus,
 		#header nav a.icon.solid.active {
 			/* set background to black and text to white when active/focused */
-			background-color: #000 !important;
+			background-color: #0b0b0b !important;
 			color: #fff !important;
 		}
 
@@ -288,21 +295,15 @@
 						<img src="images/company-logo.png" alt="회사 로고" class="footer-logo" />
 						<p class="footer-compact">Designed by AI, defined by vision.<br>
 							We craft motion between frames and imagination.<br>
-							Creating the future of automated creativity.</p>
+							Creating the future of automated creativity.</p><br>
 					</section>
-					<br>
 					<section>
 						<h2>Follow me on ...</h2>
 						<ul class="icons">
-							<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-							<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a>
+							<li><a href="https://www.instagram.com/cinexa.ai/" class="icon brands fa-instagram"><span
+										class="label">Instagram</span></a>
 							</li>
-							<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a>
-							</li>
-							<li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
-							<li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
-							<li><a href="#" class="icon brands fa-linkedin-in"><span class="label">LinkedIn</span></a>
-							</li>
+
 						</ul>
 					</section>
 					<p class="copyright">
@@ -312,16 +313,27 @@
 				<div>
 					<section>
 						<h2>Get in touch</h2>
-						<form method="post" action="#">
+						<form id="contactForm" action="https://formsubmit.co/cinexa.ai@gmail.com" method="POST">
+							<input type="hidden" name="_subject" value="New contact from CINEXA website">
+							<input type="hidden" name="_template" value="table">
+							<input type="hidden" name="_captcha" value="false">
+							<input type="hidden" name="_next" value="https://cinexa.ai">
 							<div class="fields">
 								<div class="field half">
-									<input type="text" name="name" id="name" placeholder="Name" />
+									<input type="text" name="name" id="name" placeholder="Name" required />
 								</div>
 								<div class="field half">
-									<input type="text" name="email" id="email" placeholder="Email" />
+									<input type="email" name="email" id="email" placeholder="Email" required />
 								</div>
 								<div class="field">
-									<textarea name="message" id="message" rows="4" placeholder="Message"></textarea>
+									<input type="tel" name="mobile" id="mobile" placeholder="Mobile (min. 10 digits)"
+										pattern="[0-9+\-\s]{10,}"
+										oninvalid="this.setCustomValidity('Please enter at least 10 digits. Symbols (+,-) are allowed.')"
+										oninput="this.setCustomValidity('')" required />
+								</div>
+								<div class="field">
+									<textarea name="message" id="message" rows="4" placeholder="Message"
+										required></textarea>
 								</div>
 							</div>
 							<ul class="actions">
