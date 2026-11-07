@@ -75,5 +75,6 @@
   - `assets/js/cinexa.js` : 메뉴, 영상 미리보기·팝업, 문의 메일 보내기(EmailJS) 기능
   - `images/fulls/` : 원본 영상 / `images/web/` : 홈페이지용으로 가볍게 줄인 영상·사진
   - `images/apps/` : 앱 아이콘
+  - `assets/fonts/pretendard/` : 사이트 글꼴(프리텐다드). 인터넷의 다른 서버에 기대지 않도록 직접 넣어 둔 파일이에요(라이선스: `OFL.txt`).
   - `assets/css/main.css`, `assets/js/main.js` 등 옛 템플릿 파일은 지금은 쓰지 않아요(아이콘 글꼴만 사용).
 - 확인 방법: `index.html` 파일을 더블클릭하면 브라우저에서 사이트가 열립니다.

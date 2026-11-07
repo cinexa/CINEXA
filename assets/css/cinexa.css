@@ -20,7 +20,7 @@
 	--max: 1240px;
 	--gutter: clamp(16px, 4vw, 40px);
 	--font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
-	--font-display: "Space Grotesk", "Pretendard Variable", Pretendard, system-ui, sans-serif;
+	--font-display: var(--font);
 	--ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -266,6 +266,9 @@ textarea {
 }
 
 .nav-links a.nav-cta {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	margin-left: 8px;
 	padding: 0 18px;
 	color: var(--accent-ink);
