@@ -67,10 +67,14 @@
 - 영어 화면 문구를 번역 없이 그대로 붙여넣기
 
 ## 이 프로젝트에 대해
-- `CINEXA` 는 HTML5 UP 의 "Multiverse" 템플릿을 기반으로 만든 **한 페이지짜리 웹사이트**입니다.
+- `CINEXA` 는 AI 영상 콘텐츠 제작 & 앱 개발 회사의 **한 페이지짜리 회사 홈페이지**입니다.
+  (처음엔 HTML5 UP "Multiverse" 템플릿이었지만, 지금은 자체 디자인으로 바뀌었어요.)
 - 주요 파일
-  - `index.html` : 사이트의 실제 내용(글, 사진 목록)이 들어 있는 파일
-  - `assets/css/main.css` : 색깔·글씨·배치 등 겉모습을 정하는 파일
-  - `assets/js/` : 클릭했을 때 동작하는 기능이 들어 있는 파일들
-  - `images/` : 사이트에 쓰이는 사진들이 담긴 폴더
+  - `index.html` : 사이트의 실제 내용(글, 영상 목록, 앱 소개, 문의 양식)이 들어 있는 파일
+  - `assets/css/cinexa.css` : 색깔·글씨·배치 등 겉모습을 정하는 파일 (맨 위 `:root` 에서 색을 바꿔요)
+  - `assets/js/cinexa.js` : 메뉴, 영상 미리보기·팝업, 문의 메일 보내기(EmailJS) 기능
+  - `images/fulls/` : 원본 영상 / `images/web/` : 홈페이지용으로 가볍게 줄인 영상·사진
+  - `images/apps/` : 앱 아이콘
+  - `assets/fonts/pretendard/` : 사이트 글꼴(프리텐다드). 인터넷의 다른 서버에 기대지 않도록 직접 넣어 둔 파일이에요(라이선스: `OFL.txt`).
+  - `assets/css/main.css`, `assets/js/main.js` 등 옛 템플릿 파일은 지금은 쓰지 않아요(아이콘 글꼴만 사용).
 - 확인 방법: `index.html` 파일을 더블클릭하면 브라우저에서 사이트가 열립니다.
