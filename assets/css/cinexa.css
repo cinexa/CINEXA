@@ -839,16 +839,6 @@ textarea {
 	object-fit: cover;
 }
 
-.app-icon.is-placeholder {
-	display: grid;
-	place-items: center;
-	background: linear-gradient(135deg, #f3c97a 0%, #b9773b 55%, #5a2f19 100%);
-	font-family: var(--font-display);
-	font-size: 30px;
-	font-weight: 700;
-	color: #fff8ec;
-}
-
 .app-name {
 	margin: 0;
 	font-family: var(--font-display);
@@ -897,11 +887,6 @@ textarea {
 .status.dev {
 	color: #8fd3ff;
 	border-color: rgba(143, 211, 255, 0.3);
-}
-
-.status.soon {
-	color: #f3c97a;
-	border-color: rgba(243, 201, 122, 0.3);
 }
 
 @keyframes pulse {
