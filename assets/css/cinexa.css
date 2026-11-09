@@ -325,9 +325,16 @@ textarea {
 		display: block;
 	}
 
+	/* 메뉴판은 상단 바(.nav) 바로 아래에 붙여 화면 끝까지 채운다.
+	   position: fixed 로 두면, 스크롤 후 상단 바에 걸리는 흐림 효과(backdrop-filter)
+	   때문에 기준이 화면이 아니라 상단 바가 되어 메뉴판 높이가 0 이 된다 → 잘려 보임 */
 	.nav-menu {
-		position: fixed;
-		inset: 72px 0 0 0;
+		position: absolute;
+		top: 100%;
+		left: 0;
+		right: 0;
+		height: calc(100vh - 72px);
+		height: calc(100dvh - 72px);
 		padding: 12px var(--gutter) 28px;
 		overflow-y: auto;
 		background: var(--bg);
@@ -346,6 +353,7 @@ textarea {
 
 	.nav.is-open {
 		background: var(--bg);
+		border-bottom-color: var(--line);
 	}
 
 	.nav-links {

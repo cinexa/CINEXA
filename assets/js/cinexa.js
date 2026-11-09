@@ -27,6 +27,7 @@
 
 	function closeMenu() {
 		nav.classList.remove('is-open');
+		document.body.style.overflow = '';
 		toggle.setAttribute('aria-expanded', 'false');
 		toggle.setAttribute('aria-label', '메뉴 열기');
 	}
@@ -34,6 +35,8 @@
 	toggle.addEventListener('click', function () {
 		var open = !nav.classList.contains('is-open');
 		nav.classList.toggle('is-open', open);
+		// 메뉴가 열려 있는 동안 뒤의 페이지가 같이 굴러가지 않게
+		document.body.style.overflow = open ? 'hidden' : '';
 		toggle.setAttribute('aria-expanded', String(open));
 		toggle.setAttribute('aria-label', open ? '메뉴 닫기' : '메뉴 열기');
 	});
