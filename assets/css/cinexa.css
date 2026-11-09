@@ -768,19 +768,6 @@ textarea {
 	padding-top: 6px;
 }
 
-.work-more {
-	margin-top: 44px;
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: space-between;
-	gap: 16px;
-	padding: 24px 28px;
-	border: 1px dashed var(--line-strong);
-	border-radius: var(--radius);
-	color: var(--text-2);
-}
-
 @media (max-width: 760px) {
 
 	.work-card,
